@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt Generator - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>Robots.txt Generator</h2>
+            <p class="mb-4">Create robots.txt files to control search engine crawlers.</p>
+            <div class="form-group">
+                <label for="sitemapUrl">Sitemap URL (optional)</label>
+                <input type="url" class="form-control" id="sitemapUrl" placeholder="https://example.com/sitemap.xml">
+            </div>
+            <div class="form-group">
+                <label for="disallowPaths">Disallow Paths (one per line, optional)</label>
+                <textarea class="form-control" id="disallowPaths" rows="5" placeholder="/admin/&#10;/private/"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="generateRobots()">Generate Robots.txt</button>
+            <div class="form-group mt-4">
+                <label for="robotsOutput">Generated Robots.txt</label>
+                <textarea class="form-control" id="robotsOutput" rows="15" readonly></textarea>
+            </div>
+            <button class="btn btn-success" onclick="copyRobots()">Copy Robots.txt</button>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function generateRobots() {
+            let robots = 'User-agent: *\n';
+            const disallowPaths = document.getElementById('disallowPaths').value.split('\n').filter(p => p.trim());
+            if (disallowPaths.length > 0) {
+                disallowPaths.forEach(path => {
+                    robots += `Disallow: ${path.trim()}\n`;
+                });
+            } else {
+                robots += 'Disallow:\n';
+            }
+            const sitemapUrl = document.getElementById('sitemapUrl').value;
+            if (sitemapUrl) {
+                robots += `\nSitemap: ${sitemapUrl}\n`;
+            }
+            document.getElementById('robotsOutput').value = robots;
+        }
+        function copyRobots() {
+            const output = document.getElementById('robotsOutput').value;
+            if (output) copyToClipboard(output);
+        }
+    </script>
+</body>
+</html>
+

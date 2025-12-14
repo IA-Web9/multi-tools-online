@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>Random Number Generator</h2>
+            <p class="mb-4">Generate random numbers within specified ranges.</p>
+            <div class="form-group">
+                <label for="minValue">Minimum Value</label>
+                <input type="number" class="form-control" id="minValue" value="1">
+            </div>
+            <div class="form-group">
+                <label for="maxValue">Maximum Value</label>
+                <input type="number" class="form-control" id="maxValue" value="100">
+            </div>
+            <div class="form-group">
+                <label for="count">Number of Results</label>
+                <input type="number" class="form-control" id="count" value="1" min="1" max="100">
+            </div>
+            <button class="btn btn-primary" onclick="generateNumbers()">Generate Random Numbers</button>
+            <div class="result-box mt-4">
+                <h4>Generated Numbers</h4>
+                <div id="resultOutput" class="mb-3"></div>
+                <button class="btn btn-success" onclick="copyNumbers()">Copy Numbers</button>
+            </div>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function generateNumbers() {
+            const min = parseInt(document.getElementById('minValue').value);
+            const max = parseInt(document.getElementById('maxValue').value);
+            const count = parseInt(document.getElementById('count').value);
+            if (isNaN(min) || isNaN(max) || min >= max) { alert('Please enter valid range'); return; }
+            const numbers = [];
+            for (let i = 0; i < count; i++) {
+                numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+            document.getElementById('resultOutput').textContent = numbers.join(', ');
+        }
+        function copyNumbers() {
+            const text = document.getElementById('resultOutput').textContent;
+            if (text) copyToClipboard(text);
+        }
+    </script>
+</body>
+</html>
+

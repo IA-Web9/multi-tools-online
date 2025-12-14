@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Minifier - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>JavaScript Minifier</h2>
+            <p class="mb-4">Minify JavaScript code for production deployment.</p>
+            <div class="form-group">
+                <label for="jsInput">Enter JavaScript Code</label>
+                <textarea class="form-control" id="jsInput" rows="12" placeholder="Enter your JavaScript code here..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="minifyJS()">Minify JavaScript</button>
+            <div class="form-group mt-4">
+                <label for="jsOutput">Minified JavaScript</label>
+                <textarea class="form-control" id="jsOutput" rows="12" readonly></textarea>
+            </div>
+            <div class="mb-3">
+                <span id="sizeInfo"></span>
+            </div>
+            <button class="btn btn-success" onclick="copyJS()">Copy Minified JS</button>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function minifyJS() {
+            let js = document.getElementById('jsInput').value;
+            if (!js) { alert('Please enter JavaScript code'); return; }
+            let minified = js.replace(/\/\*[\s\S]*?\*\//g, '');
+            minified = minified.replace(/\/\/.*/g, '');
+            minified = minified.replace(/\s+/g, ' ');
+            minified = minified.replace(/\s*{\s*/g, '{');
+            minified = minified.replace(/\s*}\s*/g, '}');
+            minified = minified.replace(/\s*;\s*/g, ';');
+            minified = minified.replace(/\s*,\s*/g, ',');
+            minified = minified.replace(/\s*:\s*/g, ':');
+            minified = minified.trim();
+            document.getElementById('jsOutput').value = minified;
+            const originalSize = js.length;
+            const minifiedSize = minified.length;
+            const savings = ((1 - minifiedSize / originalSize) * 100).toFixed(1);
+            document.getElementById('sizeInfo').textContent = `Original: ${originalSize} bytes | Minified: ${minifiedSize} bytes | Savings: ${savings}%`;
+        }
+        function copyJS() {
+            const output = document.getElementById('jsOutput').value;
+            if (output) copyToClipboard(output);
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Minifier - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>CSS Minifier</h2>
+            <p class="mb-4">Minify CSS code to reduce file size and improve loading speed.</p>
+            <div class="form-group">
+                <label for="cssInput">Enter CSS Code</label>
+                <textarea class="form-control" id="cssInput" rows="12" placeholder="Enter your CSS code here..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="minifyCSS()">Minify CSS</button>
+            <div class="form-group mt-4">
+                <label for="cssOutput">Minified CSS</label>
+                <textarea class="form-control" id="cssOutput" rows="12" readonly></textarea>
+            </div>
+            <div class="mb-3">
+                <span id="sizeInfo"></span>
+            </div>
+            <button class="btn btn-success" onclick="copyCSS()">Copy Minified CSS</button>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function minifyCSS() {
+            let css = document.getElementById('cssInput').value;
+            if (!css) { alert('Please enter CSS code'); return; }
+            let minified = css.replace(/\/\*[\s\S]*?\*\//g, '');
+            minified = minified.replace(/\s+/g, ' ');
+            minified = minified.replace(/;\s*}/g, '}');
+            minified = minified.replace(/\s*{\s*/g, '{');
+            minified = minified.replace(/;\s*/g, ';');
+            minified = minified.replace(/\s*:\s*/g, ':');
+            minified = minified.replace(/\s*,\s*/g, ',');
+            minified = minified.trim();
+            document.getElementById('cssOutput').value = minified;
+            const originalSize = css.length;
+            const minifiedSize = minified.length;
+            const savings = ((1 - minifiedSize / originalSize) * 100).toFixed(1);
+            document.getElementById('sizeInfo').textContent = `Original: ${originalSize} bytes | Minified: ${minifiedSize} bytes | Savings: ${savings}%`;
+        }
+        function copyCSS() {
+            const output = document.getElementById('cssOutput').value;
+            if (output) copyToClipboard(output);
+        }
+    </script>
+</body>
+</html>
+

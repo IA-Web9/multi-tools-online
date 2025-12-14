@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller Simulator - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>Dice Roller Simulator</h2>
+            <p class="mb-4">Roll virtual dice with customizable sides and quantity.</p>
+            <div class="form-group">
+                <label for="diceSides">Number of Sides</label>
+                <select class="form-select" id="diceSides">
+                    <option value="6">6-sided (Standard)</option>
+                    <option value="4">4-sided</option>
+                    <option value="8">8-sided</option>
+                    <option value="10">10-sided</option>
+                    <option value="12">12-sided</option>
+                    <option value="20">20-sided</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="diceCount">Number of Dice</label>
+                <input type="number" class="form-control" id="diceCount" value="1" min="1" max="10">
+            </div>
+            <button class="btn btn-primary btn-lg w-100" onclick="rollDice()">Roll Dice</button>
+            <div class="result-box mt-4">
+                <h4>Results</h4>
+                <div id="diceResults" class="mb-3"></div>
+                <p class="h4">Total: <span id="totalResult">0</span></p>
+            </div>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function rollDice() {
+            const sides = parseInt(document.getElementById('diceSides').value);
+            const count = parseInt(document.getElementById('diceCount').value);
+            const results = [];
+            let total = 0;
+            for (let i = 0; i < count; i++) {
+                const roll = Math.floor(Math.random() * sides) + 1;
+                results.push(roll);
+                total += roll;
+            }
+            document.getElementById('diceResults').textContent = results.join(', ');
+            document.getElementById('totalResult').textContent = total;
+        }
+    </script>
+</body>
+</html>
+

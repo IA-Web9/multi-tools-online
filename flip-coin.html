@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip a Coin Simulator - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>Flip a Coin Simulator</h2>
+            <p class="mb-4">Simulate coin flips for decision making and games.</p>
+            <div class="text-center mb-4">
+                <div id="coin" style="font-size: 100px; margin: 20px 0;">?</div>
+                <p class="h3" id="result"></p>
+            </div>
+            <button class="btn btn-primary btn-lg w-100" onclick="flipCoin()">Flip Coin</button>
+            <div class="result-box mt-4">
+                <h4>Statistics</h4>
+                <p>Heads: <span id="headsCount">0</span></p>
+                <p>Tails: <span id="tailsCount">0</span></p>
+                <p>Total Flips: <span id="totalFlips">0</span></p>
+                <button class="btn btn-secondary" onclick="resetStats()">Reset Statistics</button>
+            </div>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let heads = 0, tails = 0, total = 0;
+        function flipCoin() {
+            const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+            document.getElementById('coin').textContent = result === 'Heads' ? 'H' : 'T';
+            document.getElementById('result').textContent = result;
+            if (result === 'Heads') heads++; else tails++;
+            total++;
+            updateStats();
+        }
+        function updateStats() {
+            document.getElementById('headsCount').textContent = heads;
+            document.getElementById('tailsCount').textContent = tails;
+            document.getElementById('totalFlips').textContent = total;
+        }
+        function resetStats() {
+            heads = tails = total = 0;
+            document.getElementById('coin').textContent = '?';
+            document.getElementById('result').textContent = '';
+            updateStats();
+        }
+    </script>
+</body>
+</html>
+

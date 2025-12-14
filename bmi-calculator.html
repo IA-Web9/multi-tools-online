@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate Body Mass Index and determine health category. Free online BMI calculator.">
+    <title>BMI Calculator - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>BMI Calculator</h2>
+            <p class="mb-4">Calculate Body Mass Index and determine your health category.</p>
+            <div class="form-group">
+                <label>Unit System</label>
+                <select class="form-select" id="unitSystem" onchange="updateUnits()">
+                    <option value="metric">Metric (kg, cm)</option>
+                    <option value="imperial">Imperial (lbs, ft/in)</option>
+                </select>
+            </div>
+            <div id="inputFields"></div>
+            <button class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button>
+            <div id="resultContainer" class="result-box mt-4" style="display: none;">
+                <h4>Result</h4>
+                <p class="h3" id="bmiValue"></p>
+                <p class="h5" id="bmiCategory"></p>
+            </div>
+        </div>
+        <div class="ad-sidebar"><div class="ad-placeholder">Advertisement Space</div></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function updateUnits() {
+            const system = document.getElementById('unitSystem').value;
+            const container = document.getElementById('inputFields');
+            if (system === 'metric') {
+                container.innerHTML = `
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" class="form-control" id="weight" placeholder="Enter weight in kg">
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" class="form-control" id="height" placeholder="Enter height in cm">
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="form-group">
+                        <label for="weight">Weight (lbs)</label>
+                        <input type="number" class="form-control" id="weight" placeholder="Enter weight in lbs">
+                    </div>
+                    <div class="form-group">
+                        <label for="heightFeet">Height (feet)</label>
+                        <input type="number" class="form-control" id="heightFeet" placeholder="Feet">
+                    </div>
+                    <div class="form-group">
+                        <label for="heightInches">Height (inches)</label>
+                        <input type="number" class="form-control" id="heightInches" placeholder="Inches">
+                    </div>
+                `;
+            }
+        }
+        function calculateBMI() {
+            const system = document.getElementById('unitSystem').value;
+            let weight, height;
+            if (system === 'metric') {
+                weight = parseFloat(document.getElementById('weight').value);
+                height = parseFloat(document.getElementById('height').value) / 100;
+            } else {
+                weight = parseFloat(document.getElementById('weight').value) * 0.453592;
+                const feet = parseFloat(document.getElementById('heightFeet').value);
+                const inches = parseFloat(document.getElementById('heightInches').value);
+                height = (feet * 12 + inches) * 0.0254;
+            }
+            if (isNaN(weight) || isNaN(height) || height === 0) {
+                alert('Please enter valid values');
+                return;
+            }
+            const bmi = weight / (height * height);
+            let category = '';
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal weight';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+            document.getElementById('bmiValue').textContent = 'BMI: ' + bmi.toFixed(2);
+            document.getElementById('bmiCategory').textContent = 'Category: ' + category;
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+        updateUnits();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert any image format to PNG with high quality preservation. Free online image to PNG converter tool.">
+    <title>Image to PNG Converter - MultiTools</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="tool-page-container">
+        <div class="tool-box">
+            <h2>Image to PNG Converter</h2>
+            <p class="mb-4">Convert any image format to PNG with high quality preservation. Supports JPG, JPEG, GIF, BMP, WebP, and more.</p>
+            
+            <div class="form-group">
+                <label for="imageInput">Select Image File</label>
+                <input type="file" class="form-control" id="imageInput" accept="image/*">
+            </div>
+
+            <button class="btn btn-primary" onclick="convertToPNG()">Convert to PNG</button>
+
+            <div id="resultContainer" style="display: none;" class="mt-4">
+                <div class="result-box">
+                    <h4>Converted Image</h4>
+                    <div id="previewContainer" class="mb-3"></div>
+                    <button class="btn btn-primary" onclick="downloadPNG()">Download PNG</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-sidebar">
+            <div class="ad-placeholder">Advertisement Space</div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let convertedImageData = null;
+
+        function convertToPNG() {
+            const input = document.getElementById('imageInput');
+            const file = input.files[0];
+            
+            if (!file) {
+                alert('Please select an image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        convertedImageData = url;
+                        
+                        const preview = document.getElementById('previewContainer');
+                        preview.innerHTML = `<img src="${url}" class="img-fluid" alt="Converted PNG">`;
+                        document.getElementById('resultContainer').style.display = 'block';
+                    }, 'image/png');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function downloadPNG() {
+            if (convertedImageData) {
+                const a = document.createElement('a');
+                a.href = convertedImageData;
+                a.download = 'converted-image.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+    </script>
+</body>
+</html>
+
